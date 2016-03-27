@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/seanmtracey/Tea-Box#readme",
   "dependencies": {
+    "denodeify": "^1.2.1",
+    "dotenv": "^2.0.0",
     "eddystone-beacon": "^1.0.5",
     "gpio": "^0.2.7",
     "s3o-middleware": "^1.4.0",
