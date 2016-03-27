@@ -16,7 +16,7 @@ const localAddress = dnsLookup(require('os').hostname())
 		const addressWithPort = IP + ':' + process.env.PORT;
 		console.log(addressWithPort);
 
-		eddystone.advertiseUrl('http:// + 'addressWithPort + '/', {
+		eddystone.advertiseUrl('http://' + addressWithPort + '/', {
 			txPowerLevel: -22,
 			tlmCount: 2,
 			tlmPeriod: 10
