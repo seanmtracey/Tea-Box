@@ -9,14 +9,14 @@ var app = express();
 app.listen(process.env.PORT);
 
 const solenoidPin = 7;
-gpio.setup(solenoidPin, gpio.DIR_OUT, err => { console.log(`GPIO Error: ${err}`) } );
+gpio.setup(solenoidPin, gpio.DIR_OUT, function(err){ console.log('GPIO Error: ' + err) } );
 
 const localAddress = dnsLookup(require('os').hostname())
-	.then( IP => {
-		const addressWithPort = `${IP}:${process.env.PORT}`;
+	.then( function(IP){
+		const addressWithPort = IP + ':' + process.env.PORT;
 		console.log(addressWithPort);
 
-		eddystone.advertiseUrl(`http://${addressWithPort}/`, {
+		eddystone.advertiseUrl('http:// + 'addressWithPort + '/', {
 			txPowerLevel: -22,
 			tlmCount: 2,
 			tlmPeriod: 10
@@ -24,7 +24,7 @@ const localAddress = dnsLookup(require('os').hostname())
 
 		return addressWithPort;
 	})
-	.catch(err => {
+	.catch(function(err){
 		console.log(err);
 	})
 ;
@@ -33,7 +33,7 @@ function closeTheBox(attempt){
 	
 	attempt = attempt || 0;
 	
-	gpio.write(solenoidPin, false, err => {
+	gpio.write(solenoidPin, false, function(err){
 		
 		if(err !== undefined && attempt < 5){
 			closeTheBox(attempt += 1);
@@ -46,10 +46,10 @@ function openTheBox(duration, attempt){
 	
 	attempt = attempt || 0;
 	
-	gpio.write(solenoidPin, true, err => {
+	gpio.write(solenoidPin, true, function(err){
 		
 		if(err !== undefined){
-			console.log(`An error occurred when setting the solenoidPin to HIGH ${err}`);
+			console.log('An error occurred when setting the solenoidPin to HIGH', err);
 			if(attempt < 5){
 				openTheBox(duration, attempt += 1);
 			}	
