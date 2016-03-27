@@ -20,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/seanmtracey/Tea-Box/issues"
   },
-  "homepage": "https://github.com/seanmtracey/Tea-Box#readme"
+  "homepage": "https://github.com/seanmtracey/Tea-Box#readme",
+  "dependencies": {
+    "eddystone-beacon": "^1.0.5",
+    "gpio": "^0.2.7",
+    "s3o-middleware": "^1.4.0",
+    "wifi-control": "^1.0.2"
+  }
 }
