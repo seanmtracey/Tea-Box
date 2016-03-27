@@ -1,9 +1,10 @@
+const os = require('os');
 const gpio = require('rpi-gpio');
 const eddystone = require('eddystone-beacon');
 const s3o = require('s3o-middleware');
 const env = require('dotenv').config();
 const denodeify = require('denodeify');
-const dnsLookup = denodeify( require('dns').lookup );
+const networkIP = os.networkInterfaces().wlan0[0].address;
 const express = require('express');
 var app = express();
 app.listen(process.env.PORT);
@@ -11,23 +12,14 @@ app.listen(process.env.PORT);
 const solenoidPin = 7;
 gpio.setup(solenoidPin, gpio.DIR_OUT, function(err){ console.log('GPIO Error: ' + err) } );
 
-const localAddress = dnsLookup(require('os').hostname())
-	.then( function(IP){
-		const addressWithPort = IP + ':' + process.env.PORT;
-		console.log(addressWithPort);
+const addressWithPort = networkIP + ':' + process.env.PORT;
+console.log(addressWithPort);
 
-		eddystone.advertiseUrl('http://' + addressWithPort + '/', {
-			txPowerLevel: -22,
-			tlmCount: 2,
-			tlmPeriod: 10
-		});	
-
-		return addressWithPort;
-	})
-	.catch(function(err){
-		console.log(err);
-	})
-;
+eddystone.advertiseUrl('http://' + addressWithPort + '/', {
+	txPowerLevel: -22,
+	tlmCount: 2,
+	tlmPeriod: 10
+});	
 
 function closeTheBox(attempt){
 	
