@@ -7,7 +7,13 @@ const dnsLookup = denodeify( require('dns').lookup );
 
 const localIP = dnsLookup(require('os').hostname())
 	.then( IP => {
-		console.log(`${IP}:${process.env.PORT}`);
-		return `${IP}:${process.env.PORT}`;
+		const addressWithPort = `${IP}:${process.env.PORT}`;
+		console.log(addressWithPort);
+		eddystone.advertiseUrl(`http://${addressWithPort}`, {
+			txPowerLevel: -22,
+			tlmCount: 2,
+			tlmPeriod: 10
+		});	
+		return addressWithPort;
 	})
 ;
