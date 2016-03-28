@@ -10,6 +10,7 @@ var app = express();
 app.listen(process.env.PORT);
 
 const solenoidPin = 7;
+gpio.setMode(gpio.MODE_RPI);
 gpio.setup(solenoidPin, gpio.DIR_OUT, function(err){ console.log('GPIO Error: ' + err) } );
 
 const addressWithPort = networkIP + ':' + process.env.PORT;
